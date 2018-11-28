@@ -243,7 +243,7 @@ double ejecutarMergeSort(float *arreglo,long largo){
     clock_t begin;
     begin=clock();
     mergeSort(arreglo,0,largo-1);
-    tiempo=(double)((begin-clock())*1000)/CLOCKS_PER_SEC;
+    tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
     if(!estaOrdenado(arreglo,largo))
         tiempo=-1;
     return tiempo;
@@ -258,7 +258,7 @@ double ejecutarQuickSort(float *arreglo,long largo){
     clock_t begin;
     begin=clock();
     quicksort(arreglo,0,largo-1);
-    tiempo=(double)((begin-clock())*1000)/CLOCKS_PER_SEC;
+    tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
     if(!estaOrdenado(arreglo,largo))
         tiempo=-1;
     return tiempo;
