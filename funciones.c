@@ -16,6 +16,7 @@ long abrirArchivoArreglo(float **arreglo,FILE *archivo){
 	long largo=0;
 	long largo2=2;
 	free(*arreglo);
+    rewind(archivo);
 	*(arreglo)=(float*) calloc(largo2,sizeof(float));
 	while(fscanf(archivo,"%e",&((*arreglo)[largo++]))!=EOF)
 		if(largo==largo2)
@@ -35,7 +36,7 @@ void abrirArchivoArbol(struct Arbol **arbol){
 
 
 
-
+/**----------------------------------------------BLOQUE MERGESORT-----------------------------------------------------**/
 void merge(float *arreglo,long inicio,long mitad,long final){
     long i=0,j=0,k=inicio,lA=(mitad-inicio+1),lB=(final-mitad);
     float *A=NULL,*B=NULL;
@@ -81,7 +82,61 @@ void mergeSort(float *arreglo,long inicio,long final){
     }
     return;
 }
+/**--------------------------------------------FIN BLOQUE MERGESORT---------------------------------------------------**/
 
+
+
+
+/**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
+void swapf(float* a, float* b) { 
+    float t = *a; 
+    *a = *b; 
+    *b = t; 
+} 
+
+
+
+
+
+
+int particion(float *arreglo,int menor, int mayor ){
+
+	float pivote = arreglo[mayor];
+	int auxMenor = (menor -1);
+
+	for (int i = menor; i <= mayor-1; i++){
+
+		if (arreglo[i] <= pivote){
+
+			auxMenor++;
+			swapf(&arreglo[auxMenor],&arreglo[i]);
+		}
+	}
+	swapf(&arreglo[auxMenor + 1],&arreglo[mayor]);
+	return (auxMenor + 1);
+}
+
+
+
+
+
+
+void quicksort(float *arreglo,int menor,int mayor){
+    while (menor < mayor){
+        int part = particion(arreglo, menor, mayor);
+
+        if ((part - menor)<(part - mayor)){
+            quicksort(arreglo, menor, part-1);
+            menor = part + 1;
+        }
+        else{
+            quicksort(arreglo, part + 1, mayor);
+            mayor = part - 1;
+        }
+        
+    }
+}
+/**--------------------------------------------FIN BLOQUE QUICKSORT---------------------------------------------------**/
 
 
 

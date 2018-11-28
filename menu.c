@@ -20,6 +20,7 @@ void menuArboles(FILE *archivo);
 void menuTiempoMemoria(FILE *archivo);
 
 double ejecutarMergeSort(float *arreglo,long largo);
+double ejecutarQuickSort(float *arreglo,long largo);
 
 void subirLineas(int n);
 /**-----------------------------------------------FIN PROTOTIPOS------------------------------------------------------**/
@@ -147,9 +148,14 @@ void menuArreglos(FILE *archivo){
             case '1':
                 tiempo=ejecutarMergeSort(arreglo,largo);
                 printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf\33[A",tiempo);
+                largo=abrirArchivoArreglo(&arreglo,archivo);
                 subirLineas(lineas);
                 break;
             case '2':
+                tiempo=ejecutarQuickSort(arreglo,largo);
+                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf\33[A",tiempo);
+                largo=abrirArchivoArreglo(&arreglo,archivo);
+                subirLineas(lineas);
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
                 subirLineas(lineas);
@@ -237,6 +243,21 @@ double ejecutarMergeSort(float *arreglo,long largo){
     clock_t begin;
     begin=clock();
     mergeSort(arreglo,0,largo-1);
+    tiempo=(double)((begin-clock())*1000)/CLOCKS_PER_SEC;
+    if(!estaOrdenado(arreglo,largo))
+        tiempo=-1;
+    return tiempo;
+}
+
+
+
+
+
+double ejecutarQuickSort(float *arreglo,long largo){
+    double tiempo;
+    clock_t begin;
+    begin=clock();
+    quicksort(arreglo,0,largo-1);
     tiempo=(double)((begin-clock())*1000)/CLOCKS_PER_SEC;
     if(!estaOrdenado(arreglo,largo))
         tiempo=-1;
