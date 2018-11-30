@@ -12,7 +12,6 @@ void abrirArchivoArbol(struct Arbol **arbol);
 void merge(float *arreglo,long inicio,long mitad,long final);
 void mergeSort(float *arreglo,long inicio,long final);
 
-void swapf(float* a, float* b);
 int particion(float *arreglo,int menor,int mayor);
 void quicksort(float *arreglo,int menor,int mayor);
 

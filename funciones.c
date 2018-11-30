@@ -37,6 +37,14 @@ void abrirArchivoArbol(struct Arbol **arbol){
 
 
 /**----------------------------------------------BLOQUE MERGESORT-----------------------------------------------------**/
+/**
+ * merge: 
+ * 
+ * Función que recibe un arreglo, dos indices limite y la mitad entre ellos. Genera dos arreglos A y B, los cuales se
+ * llenan con los valores correspondientes a [inicio,mitad] y [mitad+1,final] del arreglo, respectivamente.
+ * 
+ * Se mezclan ambos arreglos con el criterio menor o igual y se reemplazan en las posiciones [inicio,final] del arreglo.
+ */
 void merge(float *arreglo,long inicio,long mitad,long final){
     long i=0,j=0,k=inicio,lA=(mitad-inicio+1),lB=(final-mitad);
     float *A=NULL,*B=NULL;
@@ -64,7 +72,14 @@ void merge(float *arreglo,long inicio,long mitad,long final){
 
 
 
-
+/**
+ * mergeSort:
+ * 
+ * Funcion recursiva que recibe un arreglo y calcula la mitad correspondiente con los valores
+ * inicio y final enviados por parametro. Se llama a si misma dos veces, dividiendo el intervalo
+ * [inicio,final] en [inicio,mitad] y [mitad+1,final]. Luego, llama a la funcion merge para
+ * mezclar ambas partes.
+ */
 void mergeSort(float *arreglo,long inicio,long final){
     long mitad=(inicio+final)/2;
     long i=0;
@@ -88,16 +103,6 @@ void mergeSort(float *arreglo,long inicio,long final){
 
 
 /**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
-void swapf(float* a, float* b) { 
-    float t = *a; 
-    *a = *b; 
-    *b = t; 
-} 
-
-
-
-
-
 
 int particion(float *arreglo,int menor, int mayor ){
 
@@ -109,10 +114,10 @@ int particion(float *arreglo,int menor, int mayor ){
 		if (arreglo[i] <= pivote){
 
 			auxMenor++;
-			swapf(&arreglo[auxMenor],&arreglo[i]);
+            arreglo[auxMenor]=arreglo[auxMenor]+arreglo[i]-(arreglo[i]=arreglo[auxMenor]);
 		}
 	}
-	swapf(&arreglo[auxMenor + 1],&arreglo[mayor]);
+    arreglo[auxMenor+1]=arreglo[auxMenor+1]+arreglo[mayor]-(arreglo[mayor]=arreglo[auxMenor+1]);
 	return (auxMenor + 1);
 }
 
@@ -144,7 +149,7 @@ void quicksort(float *arreglo,int menor,int mayor){
 void imprimirArreglo(float *arreglo,long largo){
 	long i=0;
 	for(;i<largo;i++)
-		printf("%.3e ",arreglo[i]);
+        printf("%.3f ",arreglo[i]);
 }
 
 

@@ -128,6 +128,7 @@ void menuMetodos(FILE *archivo){
 
 
 void menuArreglos(FILE *archivo){
+    int pause;
     int lineas=8;
     char op;
     float *arreglo=NULL;
@@ -138,23 +139,37 @@ void menuArreglos(FILE *archivo){
         printf("Ingrese el numero de la opcion a ejecutar: \n");
         printf("\t1: Ejecutar MergeSort.\n");
         printf("\t2: Ejecutar QuickSort.\n");
+        printf("\t3: Mostrar arreglo.\n");
+        printf("\t4: Re-cargar arreglo.\n");
         printf("\t0: Volver.\n");
         printf("\t\33[2KOpcion: ");
         scanf("%c",&op);
         switch(op){
+            fflush(stdin);
             case '0':
                subirLineas(lineas);
                 break;
             case '1':
                 tiempo=ejecutarMergeSort(arreglo,largo);
-                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf\33[A",tiempo);
-                largo=abrirArchivoArreglo(&arreglo,archivo);
+                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf ms\33[A",tiempo);
                 subirLineas(lineas);
                 break;
             case '2':
                 tiempo=ejecutarQuickSort(arreglo,largo);
-                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf\33[A",tiempo);
+                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf ms\33[A",tiempo);
+                subirLineas(lineas);
+                break;
+            case '3':
+                subirLineas(lineas);
+                imprimirArreglo(arreglo,largo);
+                printf("\nPresione una tecla para continuar...");
+                pause=getchar();
+                pause=getchar();
+                system("clear");
+                break;
+            case '4':
                 largo=abrirArchivoArreglo(&arreglo,archivo);
+                printf("\r\t\33[2KDatos cargados correctamente.\33[A");
                 subirLineas(lineas);
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
