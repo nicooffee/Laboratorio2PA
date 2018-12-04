@@ -7,21 +7,21 @@
 /**
  * abrirArchivoArreglo:
  * 
- * Función que recibe una referencia a un arreglo de tipo float, al cual se le asigna memoria para guardar los datos
+ * Función que recibe una referencia a un arreglo de tipo double, al cual se le asigna memoria para guardar los datos
  * del archivo.
  * 
  * Retorna el largo final del arreglo.
  */
-long abrirArchivoArreglo(float **arreglo,FILE *archivo){
+long abrirArchivoArreglo(double **arreglo,FILE *archivo){
 	long largo=0;
 	long largo2=2;
 	free(*arreglo);
     rewind(archivo);
-	*(arreglo)=(float*) calloc(largo2,sizeof(float));
-	while(fscanf(archivo,"%e",&((*arreglo)[largo++]))!=EOF)
+	*(arreglo)=(double*) calloc(largo2,sizeof(double));
+	while(fscanf(archivo,"%le",&((*arreglo)[largo++]))!=EOF)
 		if(largo==largo2)
-			*(arreglo)=(float*) realloc(*(arreglo),(largo2*=2)*sizeof(float));
-	*(arreglo)=(float *) realloc(*(arreglo),(largo-1)*sizeof(float));
+			*(arreglo)=(double*) realloc(*(arreglo),(largo2*=2)*sizeof(double));
+	*(arreglo)=(double *) realloc(*(arreglo),(largo-1)*sizeof(double));
 	return --largo;
 }
 
@@ -45,11 +45,11 @@ void abrirArchivoArbol(struct Arbol **arbol){
  * 
  * Se mezclan ambos arreglos con el criterio menor o igual y se reemplazan en las posiciones [inicio,final] del arreglo.
  */
-void merge(float *arreglo,long inicio,long mitad,long final){
+void merge(double *arreglo,long inicio,long mitad,long final){
     long i=0,j=0,k=inicio,lA=(mitad-inicio+1),lB=(final-mitad);
-    float *A=NULL,*B=NULL;
-    A=(float*) calloc(lA,sizeof(float));
-    B=(float*) calloc(lB,sizeof(float));
+    double *A=NULL,*B=NULL;
+    A=(double*) calloc(lA,sizeof(double));
+    B=(double*) calloc(lB,sizeof(double));
     while(i<lA)
         A[i]=arreglo[inicio+(i++)];
     while(j<lB)
@@ -64,8 +64,8 @@ void merge(float *arreglo,long inicio,long mitad,long final){
         arreglo[k++]=A[i++];
     while(j<lB)
         arreglo[k++]=B[j++];
-    free(A);
-    free(B);
+    //free(A);
+  //  free(B);
     return;
 }
 
@@ -80,7 +80,7 @@ void merge(float *arreglo,long inicio,long mitad,long final){
  * [inicio,final] en [inicio,mitad] y [mitad+1,final]. Luego, llama a la funcion merge para
  * mezclar ambas partes.
  */
-void mergeSort(float *arreglo,long inicio,long final){
+void mergeSort(double *arreglo,long inicio,long final){
     long mitad=(inicio+final)/2;
     long i=0;
     if(inicio==final)
@@ -104,9 +104,9 @@ void mergeSort(float *arreglo,long inicio,long final){
 
 /**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
 
-int particion(float *arreglo,int menor, int mayor ){
+int particion(double *arreglo,int menor, int mayor ){
 
-	float pivote = arreglo[mayor];
+	double pivote = arreglo[mayor];
 	int auxMenor = (menor -1);
 
 	for (int i = menor; i <= mayor-1; i++){
@@ -126,7 +126,7 @@ int particion(float *arreglo,int menor, int mayor ){
 
 
 
-void quicksort(float *arreglo,int menor,int mayor){
+void quicksort(double *arreglo,int menor,int mayor){
     while (menor < mayor){
         int part = particion(arreglo, menor, mayor);
 
@@ -146,17 +146,17 @@ void quicksort(float *arreglo,int menor,int mayor){
 
 
 
-void imprimirArreglo(float *arreglo,long largo){
+void imprimirArreglo(double *arreglo,long largo){
 	long i=0;
 	for(;i<largo;i++)
-        printf("%.3f ",arreglo[i]);
+        printf("%.3lf ",arreglo[i]);
 }
 
 
 
 
 
-int estaOrdenado(float *arreglo,long largo){
+int estaOrdenado(double *arreglo,long largo){
 	long i=0;
 	while(i<largo-1)
 		if(arreglo[i++]>arreglo[i])

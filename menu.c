@@ -19,8 +19,8 @@ void menuArreglos(FILE *archivo);
 void menuArboles(FILE *archivo);
 void menuTiempoMemoria(FILE *archivo);
 
-double ejecutarMergeSort(float *arreglo,long largo);
-double ejecutarQuickSort(float *arreglo,long largo);
+double ejecutarMergeSort(double *arreglo,long largo);
+double ejecutarQuickSort(double *arreglo,long largo);
 
 void subirLineas(int n);
 /**-----------------------------------------------FIN PROTOTIPOS------------------------------------------------------**/
@@ -131,7 +131,7 @@ void menuArreglos(FILE *archivo){
     int pause;
     int lineas=8;
     char op;
-    float *arreglo=NULL;
+    double *arreglo=NULL;
     double tiempo;
     long largo=abrirArchivoArreglo(&arreglo,archivo);
     do{
@@ -145,7 +145,6 @@ void menuArreglos(FILE *archivo){
         printf("\t\33[2KOpcion: ");
         scanf("%c",&op);
         switch(op){
-            fflush(stdin);
             case '0':
                subirLineas(lineas);
                 break;
@@ -171,6 +170,7 @@ void menuArreglos(FILE *archivo){
                 largo=abrirArchivoArreglo(&arreglo,archivo);
                 printf("\r\t\33[2KDatos cargados correctamente.\33[A");
                 subirLineas(lineas);
+                break;
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
                 subirLineas(lineas);
@@ -253,7 +253,7 @@ void subirLineas(int n){
 
 
 
-double ejecutarMergeSort(float *arreglo,long largo){
+double ejecutarMergeSort(double *arreglo,long largo){
     double tiempo;
     clock_t begin;
     begin=clock();
@@ -268,7 +268,7 @@ double ejecutarMergeSort(float *arreglo,long largo){
 
 
 
-double ejecutarQuickSort(float *arreglo,long largo){
+double ejecutarQuickSort(double *arreglo,long largo){
     double tiempo;
     clock_t begin;
     begin=clock();
