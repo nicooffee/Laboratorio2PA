@@ -21,6 +21,7 @@ void menuTiempoMemoria(FILE *archivo);
 
 double ejecutarMergeSort(double *arreglo,long largo);
 double ejecutarQuickSort(double *arreglo,long largo);
+double ejecutarHeapSort(struct Heap *h);
 
 void subirLineas(int n);
 /**-----------------------------------------------FIN PROTOTIPOS------------------------------------------------------**/
@@ -177,7 +178,8 @@ void menuArreglos(FILE *archivo){
                 op='-';
         }
     }while(op!='0');
-    free(arreglo);
+    if(arreglo!=NULL)
+        free(arreglo);
     return;
 }
 
@@ -189,22 +191,37 @@ void menuArreglos(FILE *archivo){
 void menuArboles(FILE *archivo){
     int lineas=9;
     char op;
+    int pause;
+    double tiempo;
+    struct Heap *h=NULL;
     do{
         printf("\rMenu metodos de ordenamiento para arboles: \n\n");
         printf("Ingrese el numero de la opcion a ejecutar: \n");
         printf("\t1: Ejecutar HeapSort.\n");
         printf("\t2: Ejecutar AVL.\n");
         printf("\t3: Ejecutar arboles 2-3.\n");
+        printf("\t4: Resetear datos.\n");
         printf("\t0: Volver.\n");
         printf("\t\33[2KOpcion: ");
         scanf("%c",&op);
         switch(op){
             case '0':
-               subirLineas(lineas);
+                liberarHeap(&h);
+                subirLineas(lineas);
                 break;
             case '1':
+                if(h==NULL)
+                    abrirArchivoHeap(&h,archivo);
+                tiempo=ejecutarHeapSort(h);
+                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf ms\33[A",tiempo);
+                subirLineas(lineas);
+                break;
             case '2':
             case '3':
+            case '4':
+                liberarHeap(&h);
+                subirLineas(lineas);
+                break;
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
                 subirLineas(lineas);
@@ -275,6 +292,17 @@ double ejecutarQuickSort(double *arreglo,long largo){
     quicksort(arreglo,0,largo-1);
     tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
     if(!estaOrdenado(arreglo,largo))
+        tiempo=-1;
+    return tiempo;
+}
+
+double ejecutarHeapSort(struct Heap *h){
+    double tiempo;
+    clock_t begin;
+    begin=clock();
+    heapSort(h);
+    tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
+    if(!heapOrdenado(h))
         tiempo=-1;
     return tiempo;
 }
