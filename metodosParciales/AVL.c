@@ -13,12 +13,20 @@ void MostrarInOrden(struct NodoAvl *raiz);
 */
 
 
+
+
 struct NodoAvl{ 
 	double valor; 
 	struct NodoAvl *izq; 
 	struct NodoAvl *der; 
 	int altura; 
-}; 
+};
+/**
+ * DestruirArbol: 
+ * 
+ * Función que recibe una raiz de un arbol AVL y realiza free de cada nodo de este,
+ * recorriendo el arbol en post-orden, para asi liberar toda la memoria.
+ */ 
 void DestruirArbol(struct NodoAvl *raiz){
 	if (raiz == NULL){
 		return;
@@ -27,7 +35,12 @@ void DestruirArbol(struct NodoAvl *raiz){
 	DestruirArbol(raiz->der);
 	free(raiz);
 }
-
+/**
+ * Altura: 
+ * 
+ * Función que recibe un nodo de tipo AVL y devuelve la altura de este, si este nodo no existe, la función retorna 0
+ * 
+ */
 int Altura(struct NodoAvl *nodo){ 
 	if (nodo == NULL) 
 		return 0; 
@@ -41,7 +54,12 @@ int max(int a, int b){
 	else return b;
 };
 
-
+/**
+ * InicializarNodo: 
+ * 
+ * Función que recibe un valor double, e iniciliza un nodo de tipo AVL con ese valor.
+ * 
+ */
 struct NodoAvl *InicializarNodo(double valor){
 	struct NodoAvl* nodo = (struct NodoAvl*)malloc(sizeof(struct NodoAvl)); 
 	nodo->valor = valor; 
@@ -51,6 +69,14 @@ struct NodoAvl *InicializarNodo(double valor){
 	return(nodo); 
 } 
 
+/**
+ * rotarDerecha: 
+ * 
+ * Función que recibe un nodo de tipo AVL, y se encarga de realizar la rotación hacia la derecha 
+ * cuando el nodo en cuestión esta desbalanceado. Posteriormente actualiza la altura de los nodos
+ * que se usaron en la rotación.
+ * 
+ */
 
 struct NodoAvl *rotarDerecha(struct NodoAvl *b){
 
@@ -64,6 +90,13 @@ struct NodoAvl *rotarDerecha(struct NodoAvl *b){
 	return a; 
 } 
 
+/**
+ * rotarIzquierda: 
+ * 
+ * Función que recibe un nodo de tipo AVL, y se encarga de realizar la rotación hacia la izquierda 
+ * cuando el nodo en cuestión esta desbalanceado. Posteriormente actualiza la altura de los nodos
+ * que se usaron en la rotación. 
+ */
 
 struct NodoAvl *rotarIzquierda(struct NodoAvl *a){ 
 	struct NodoAvl *b = a->der; 
@@ -87,6 +120,13 @@ int Nivel(struct NodoAvl *nodo){
 	 
 } 
 
+/**
+ * insertarNodo: 
+ * 
+ * Función que recibe un nodo de tipo AVL y lo inserta en el arbol, busca el lugar correspondiente recorriendo el arreglo de 
+ * manera recursiva. Despues de insertar el nodo, al volver atras en las instancias de la función, verifica que los nodos esten
+ * balanceados, en caso contrario realiza las rotaciones correspondientes. 
+ */
 
 struct NodoAvl *insertarNodo(struct NodoAvl* nodo, double valor){ 
 
@@ -122,7 +162,22 @@ struct NodoAvl *insertarNodo(struct NodoAvl* nodo, double valor){
 	return nodo; 
 } 
 
- 
+/**
+ * CrearArbol: 
+ * 
+ * Función que recibe un arreglo de tipo double y el tamaño de este, se leen todos los elementos del arreglo 
+ * y se crea el arbol AVL a partir de estos.
+ */
+
+void CrearArbol(double arreglo, long largo){
+	struct NodoAvl *raiz = NULL;
+	for (int i = 0; i < largo; ++i){
+		raiz = insertarNodo(raiz,arreglo[i]);
+	}
+
+
+//oli
+} 
 void MostrarInOrden(struct NodoAvl *raiz){ 
 	if(raiz != NULL){  
 		MostrarInOrden(raiz->izq);
