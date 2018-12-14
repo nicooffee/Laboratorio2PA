@@ -22,6 +22,7 @@ void menuTiempoMemoria(FILE *archivo);
 double ejecutarMergeSort(double *arreglo,long largo);
 double ejecutarQuickSort(double *arreglo,long largo);
 double ejecutarHeapSort(struct Heap *h);
+double ejecutarAVL(FILE *archivo);
 
 void subirLineas(int n);
 /**-----------------------------------------------FIN PROTOTIPOS------------------------------------------------------**/
@@ -217,6 +218,15 @@ void menuArboles(FILE *archivo){
                 subirLineas(lineas);
                 break;
             case '2':
+                system("clear");
+                tiempo=ejecutarAVL(archivo);
+                printf("\rAlgoritmo ejecutado correctamente. Tiempo: %.3lf ms\33[A",tiempo);
+                printf("\n\nPresione una tecla para continuar...");
+                pause=getchar();
+                pause=getchar();
+                system("clear");
+                subirLineas(lineas);
+                break;
             case '3':
             case '4':
                 liberarHeap(&h);
@@ -296,6 +306,8 @@ double ejecutarQuickSort(double *arreglo,long largo){
     return tiempo;
 }
 
+
+
 double ejecutarHeapSort(struct Heap *h){
     double tiempo;
     clock_t begin;
@@ -304,6 +316,21 @@ double ejecutarHeapSort(struct Heap *h){
     tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
     if(!heapOrdenado(h))
         tiempo=-1;
+    return tiempo;
+}
+
+
+
+
+double ejecutarAVL(FILE *archivo){
+    double tiempo;
+    clock_t begin;
+    begin=clock();
+    struct NodoAvl *avl=NULL;
+    crearAvlArchivo(&avl,archivo);
+    tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
+    //MostrarInOrden(avl);
+    liberarAVL(&avl);
     return tiempo;
 }
 /**-----------------------------------------------FIN FUNCIONES-------------------------------------------------------**/

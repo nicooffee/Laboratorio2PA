@@ -7,15 +7,15 @@ struct Heap{
 	struct Heap *sig;
 	struct Heap *ant;
 };
-struct Arbol{
-	double valor;
-	struct Arbol *izq;
-	struct Arbol *der; 
+struct NodoAvl{ 
+	double valor; 
+	struct NodoAvl *izq; 
+	struct NodoAvl *der; 
+	int altura; 
 };
 /**----------------------------------------------FIN ESTRUCTURAS-------------------------------------------------------**/
 
 long abrirArchivoArreglo(double **arreglo,FILE *archivo);
-void abrirArchivoArbol(struct Arbol **arbol);
 /**----------------------------------------------BLOQUE MERGESORT-----------------------------------------------------**/
 void merge(double *arreglo,long inicio,long mitad,long final);
 void mergeSort(double *arreglo,long inicio,long final);
@@ -37,6 +37,20 @@ double *getValor(struct Heap *h,long p);
 int heapOrdenado(struct Heap *h);
 void heapSort(struct Heap *h);
 /**---------------------------------------------FIN BLOQUE HEAPSORT---------------------------------------------------**/
+
+/**--------------------------------------------------BLOQUE AVL-------------------------------------------------------**/
+int Altura(struct NodoAvl *nodo);
+int max(int a, int b);
+void DestruirArbol(struct NodoAvl *raiz);
+struct NodoAvl *InicializarNodo(double valor);
+struct NodoAvl *rotarDerecha(struct NodoAvl *b);
+struct NodoAvl *rotarIzquierda(struct NodoAvl *a);
+int Nivel(struct NodoAvl *nodo);
+struct NodoAvl *insertarNodo(struct NodoAvl* nodo, double valor);
+void MostrarInOrden(struct NodoAvl *raiz);
+long crearAvlArchivo(struct NodoAvl **avl, FILE *archivo);
+void liberarAVL(struct NodoAvl **avl);
+/**------------------------------------------------FIN BLOQUE AVL-----------------------------------------------------**/
 
 void imprimirArreglo(double *arreglo,long largo);
 int estaOrdenado(double *arreglo,long largo);

@@ -176,7 +176,6 @@ void CrearArbol(double arreglo, long largo){
 	}
 
 
-//oli
 } 
 void MostrarInOrden(struct NodoAvl *raiz){ 
 	if(raiz != NULL){  
