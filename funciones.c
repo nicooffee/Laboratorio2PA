@@ -44,10 +44,10 @@ void merge(double *arreglo,long inicio,long mitad,long final){
     double *A=NULL,*B=NULL;
     A=(double*) calloc(lA,sizeof(double));
     B=(double*) calloc(lB,sizeof(double));
-    while(i<lA)
-        A[i]=arreglo[inicio+(i++)];
-    while(j<lB)
-        B[j]=arreglo[mitad+1+(j++)];
+    while(i++<lA)
+        A[i-1]=arreglo[inicio+(i-1)];
+    while(j++<lB)
+        B[j-1]=arreglo[mitad+1+(j-1)];
     i=j=0;
     while(i<lA && j<lB)
         if(A[i]<=B[j])
@@ -91,13 +91,34 @@ void mergeSort(double *arreglo,long inicio,long final){
     }
     return;
 }
+
+
+
+
+
 /**--------------------------------------------FIN BLOQUE MERGESORT---------------------------------------------------**/
 
 
 
 
 /**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
+void swapf(double* a, double* b) { 
+    double t = *a; 
+    *a = *b; 
+    *b = t; 
+}
 
+
+
+
+
+/**
+ * particion: 
+ * 
+ * Función que recibe el arreglo junto con 2 índices que serían los límites
+ * para realizar la partición de este, escogiendo el mayor como pivote. La función tambien se encarga de realizar los swap
+ * correspondientes dentro de la partición al recorrerla.
+ */ 
 int particion(double *arreglo,int menor, int mayor ){
 
 	double pivote = arreglo[mayor];
@@ -108,10 +129,10 @@ int particion(double *arreglo,int menor, int mayor ){
 		if (arreglo[i] <= pivote){
 
 			auxMenor++;
-            arreglo[auxMenor]=arreglo[auxMenor]+arreglo[i]-(arreglo[i]=arreglo[auxMenor]);
+			swapf(&(arreglo[auxMenor]),&(arreglo[i]));
 		}
 	}
-    arreglo[auxMenor+1]=arreglo[auxMenor+1]+arreglo[mayor]-(arreglo[mayor]=arreglo[auxMenor+1]);
+	swapf(&(arreglo[auxMenor+1]),&(arreglo[mayor]));
 	return (auxMenor + 1);
 }
 
@@ -119,7 +140,13 @@ int particion(double *arreglo,int menor, int mayor ){
 
 
 
-
+/**
+ * quicksort: 
+ * 
+ * Función que recibe el arreglo a ordenar, y de manera recursiva se encarga de llamar a la 
+ * función particion para así ordenar todo el arreglo (recursion de cola).
+ *
+ */ 
 void quicksort(double *arreglo,int menor,int mayor){
     while (menor < mayor){
         int part = particion(arreglo, menor, mayor);
@@ -138,6 +165,12 @@ void quicksort(double *arreglo,int menor,int mayor){
 /**--------------------------------------------FIN BLOQUE QUICKSORT---------------------------------------------------**/
 
 /**-----------------------------------------------BLOQUE HEAPSORT-----------------------------------------------------**/
+/**
+ * heapSort:
+ * 
+ * Función que recibe un stuct Heap con datos. Lo monticula y luego intercambia en un ciclo el valor que está al final
+ * de la estructura con el primero. Remonticula el después del intercambio si es necesario.
+ */
 void heapSort(struct Heap *h){
 	long largo=largoHeap(h);
 	long mitad=largo/2;
@@ -154,18 +187,32 @@ void heapSort(struct Heap *h){
 		*(getValor(h,j))=vi;
 		heap=0;
 		largo--;
-		while(heap==0 && (k=2*j)<largo){
+		k=2*j;
+		while(heap==0 && (k)<largo){
 			if(k<largo-1)
 				if(*(getValor(h,k))<*(getValor(h,k+1)))
 					k++;
 			if(vi>=*(getValor(h,k)))
 				heap=1;
-			else
-				*(getValor(h,j))=*(getValor(h,j=k));
+			else{
+				(*(getValor(h,j)))=*(getValor(h,k));
+				j=k;
+			}
+			k=2*j;
 		}
 		*(getValor(h,j))=vi;
 	}
 }
+
+
+
+
+/**
+ * monticular:
+ * 
+ * Función que monticula un struct Heap. Utiliza las restricciones de la estructura explicados
+ * en el archivo funciones.h
+ */
 void monticular(struct Heap *h){
 	long largo=largoHeap(h);
 	long i,j,k;
@@ -179,19 +226,33 @@ void monticular(struct Heap *h){
 			aux1=h;
 			heap=0;
 			v=*(getValor(h,k));
-			while(heap==0 && (j=2*k)<largo){
+			j=2*k;
+			while(heap==0 && (j)<largo){
 				if(j<largo-1)
 					if(*(getValor(h,j))<*(getValor(h,j+1)))
 						j++;
 				if(v>=*(getValor(h,j)))
 					heap=1;
-				else
-					*(getValor(h,k))=*(getValor(h,k=j));
+				else{
+					*(getValor(h,k))=*(getValor(h,j));
+					k=j;
+				}
+				j=2*k;
 			}
 			*(getValor(h,k))=v;
 		}
 	}	
 }
+
+
+
+
+
+/**
+ * crearHeap:
+ * 
+ * Función que asigna memoria a un puntero struct Heap. Retorna el puntero nuevo.
+ */
 struct Heap *crearHeap(){
 	struct Heap *h=(struct Heap*) calloc(1,sizeof(struct Heap));
 	h->datos=(double*) calloc(1,sizeof(double));
@@ -200,6 +261,16 @@ struct Heap *crearHeap(){
 	return h;
 }
 
+
+
+
+
+/**
+ * abrirArchivoHeap:
+ * 
+ * Función que recibe un struct Heap y un archivo. reasigna la memoria del heap e itera
+ * los valores del archivo, los cuales se guardan en la nueva estructura.
+ */
 void abrirArchivoHeap(struct Heap **h, FILE *archivo){
 	int i=0;
 	struct Heap *it;
@@ -220,6 +291,11 @@ void abrirArchivoHeap(struct Heap **h, FILE *archivo){
 		it->datos=(double *) realloc((it->datos),(it->t=i-1)*sizeof(double));
 	return;
 }
+
+
+
+
+
 void mostrarArregloHeap(struct Heap *h){
 	struct Heap *it=h;
 	int i=0;
@@ -231,11 +307,35 @@ void mostrarArregloHeap(struct Heap *h){
 		}
 	}
 }
+
+
+
+
+
+/**
+ * getValor:
+ * 
+ * Función que itera h, hasta encontrar el valor de la posición p.
+ * Si p es mayor a LARGONODOHEAP, se avanza al nodo siguiente, hasta que la diferencia de la
+ * posición absoluta y p sea menor a LARGONODOHEAP.
+ */
 double *getValor(struct Heap *h,long p){
-	long numNodo=-1;
-	while((p-(++numNodo*LARGONODOHEAP))>=LARGONODOHEAP) h=h->sig;
-	return &(h->datos[(p-(numNodo*LARGONODOHEAP))]);
+	long numNodo=0;
+	while((p-(numNodo*LARGONODOHEAP))>=LARGONODOHEAP){
+		h=h->sig;
+		numNodo++;
+	}
+	return &(h->datos[(p-((numNodo)*LARGONODOHEAP))]);
 }
+
+
+
+
+/**
+ * largoHeap:
+ *  
+ * Función que retorna el largo absoluto de un struct Heap.
+ */
 long largoHeap(struct Heap *h){
 	long largo=0;
 	struct Heap *it=h;
@@ -245,6 +345,16 @@ long largoHeap(struct Heap *h){
 	}
 	return largo;
 }
+
+
+
+
+/**
+ * liberarHeap:
+ * 
+ * Función que recorre todo los nodos de un struct Heap mientras elimina todo el contenido
+ * de cada nodo.
+ */
 void liberarHeap(struct Heap **h){
 	struct Heap *aux=*h;
 	while(*h!=NULL){
@@ -257,7 +367,11 @@ void liberarHeap(struct Heap **h){
     return;
 }
 	
-
+/**
+ * heapOrdenado:
+ * 
+ * Función que comprueba si todos los valores del struct Heap h están ordenados de menor a mayor.
+ */
 int heapOrdenado(struct Heap *h){
 	long largo=largoHeap(h);
 	int i=0;
@@ -269,20 +383,7 @@ int heapOrdenado(struct Heap *h){
 /**---------------------------------------------FIN BLOQUE HEAPSORT---------------------------------------------------**/
 
 /**-------------------------------------------------BLOQUE AVL--------------------------------------------------------**/
-/**
- * DestruirArbol: 
- * 
- * Función que recibe una raiz de un arbol AVL y realiza free de cada nodo de este,
- * recorriendo el arbol en post-orden, para asi liberar toda la memoria.
- */ 
-void DestruirArbol(struct NodoAvl *raiz){
-	if (raiz == NULL){
-		return;
-	}
-	DestruirArbol(raiz->izq);
-	DestruirArbol(raiz->der);
-	free(raiz);
-}
+
 
 
 
@@ -471,7 +572,12 @@ long crearAvlArchivo(struct NodoAvl **avl, FILE *archivo){
 
 
 
-
+/**
+ * liberarAVL: 
+ * 
+ * Función que recibe una raiz de un arbol AVL y realiza free de cada nodo de este,
+ * recorriendo el arbol en post-orden, para asi liberar toda la memoria.
+ */ 
 void liberarAVL(struct NodoAvl **avl){
 	if(*avl!=NULL){
 		liberarAVL(&((*avl)->izq));

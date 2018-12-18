@@ -1,6 +1,13 @@
 /**--------------------------------------------CONSTANTES GLOBALES----------------------------------------------------**/
-#define LARGONODOHEAP 65536 //Largo de cada arreglo en un nodo heap. SOLO POTENCIAS DE 2.
+#define LARGONODOHEAP 16 //Largo de cada arreglo en un nodo heap. SOLO POTENCIAS DE 2.
 /**------------------------------------------------ESTRUCTURAS--------------------------------------------------------**/
+/**
+ * struct Heap:
+ * 
+ * Estructura que representa un montículo. Cada nodo de la lista enlazada es un arreglo de largo LARGONODOHEAP.
+ * Cada posicion menor o igual a n/2 es un pariente y las siguientes a n/2 son hojas. Cada pariente en k tiene a sus
+ * hijos en las posiciones 2k y 2k+1.
+ */
 struct Heap{
 	double *datos;
 	int t;
@@ -24,6 +31,7 @@ void mergeSort(double *arreglo,long inicio,long final);
 /**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
 int particion(double *arreglo,int menor,int mayor);
 void quicksort(double *arreglo,int menor,int mayor);
+void swapf(double* a, double* b);
 /**--------------------------------------------FIN BLOQUE QUICKSORT---------------------------------------------------**/
 
 /**-----------------------------------------------BLOQUE HEAPSORT-----------------------------------------------------**/
@@ -41,7 +49,6 @@ void heapSort(struct Heap *h);
 /**--------------------------------------------------BLOQUE AVL-------------------------------------------------------**/
 int Altura(struct NodoAvl *nodo);
 int max(int a, int b);
-void DestruirArbol(struct NodoAvl *raiz);
 struct NodoAvl *InicializarNodo(double valor);
 struct NodoAvl *rotarDerecha(struct NodoAvl *b);
 struct NodoAvl *rotarIzquierda(struct NodoAvl *a);

@@ -308,6 +308,8 @@ double ejecutarQuickSort(double *arreglo,long largo){
 
 
 
+
+
 double ejecutarHeapSort(struct Heap *h){
     double tiempo;
     clock_t begin;
@@ -329,7 +331,7 @@ double ejecutarAVL(FILE *archivo){
     struct NodoAvl *avl=NULL;
     crearAvlArchivo(&avl,archivo);
     tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
-    //MostrarInOrden(avl);
+    MostrarInOrden(avl);
     liberarAVL(&avl);
     return tiempo;
 }
