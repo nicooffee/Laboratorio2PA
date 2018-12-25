@@ -22,17 +22,20 @@ struct NodoAvl{
 };
 /**----------------------------------------------FIN ESTRUCTURAS-------------------------------------------------------**/
 
+
 long abrirArchivoArreglo(double **arreglo,FILE *archivo);
 /**----------------------------------------------BLOQUE MERGESORT-----------------------------------------------------**/
 void merge(double *arreglo,long inicio,long mitad,long final);
 void mergeSort(double *arreglo,long inicio,long final);
 /**--------------------------------------------FIN BLOQUE MERGESORT---------------------------------------------------**/
 
+
 /**----------------------------------------------BLOQUE QUICKSORT-----------------------------------------------------**/
 int particion(double *arreglo,int menor,int mayor);
 void quicksort(double *arreglo,int menor,int mayor);
 void swapf(double* a, double* b);
 /**--------------------------------------------FIN BLOQUE QUICKSORT---------------------------------------------------**/
+
 
 /**-----------------------------------------------BLOQUE HEAPSORT-----------------------------------------------------**/
 struct Heap *crearHeap();
@@ -46,6 +49,7 @@ int heapOrdenado(struct Heap *h);
 void heapSort(struct Heap *h);
 /**---------------------------------------------FIN BLOQUE HEAPSORT---------------------------------------------------**/
 
+
 /**--------------------------------------------------BLOQUE AVL-------------------------------------------------------**/
 int Altura(struct NodoAvl *nodo);
 int max(int a, int b);
@@ -58,6 +62,18 @@ void MostrarInOrden(struct NodoAvl *raiz);
 long crearAvlArchivo(struct NodoAvl **avl, FILE *archivo);
 void liberarAVL(struct NodoAvl **avl);
 /**------------------------------------------------FIN BLOQUE AVL-----------------------------------------------------**/
+
+
+/**----------------------------------------BLOQUE INTERCAMBIO TIEMPO-MEMORIA------------------------------------------**/
+void ordenarPorConteo(double **A,long l);
+/**--------------------------------------FIN BLOQUE INTERCAMBIO TIEMPO-MEMORIA----------------------------------------**/
+
+
+/**--------------------------------------------BLOQUE ESTADÍSTICA BÁSICA----------------------------------------------**/
+double mediana(double *A,long L);
+double *cuartiles(double *A,long L);
+/**------------------------------------------FIN BLOQUE ESTADÍSTICA BÁSICA--------------------------------------------**/
+
 
 void imprimirArreglo(double *arreglo,long largo);
 int estaOrdenado(double *arreglo,long largo);

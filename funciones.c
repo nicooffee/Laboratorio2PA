@@ -300,7 +300,7 @@ void mostrarArregloHeap(struct Heap *h){
 	struct Heap *it=h;
 	int i=0;
 	while(it!=NULL){
-		printf("%.3lf ",it->datos[i++]);
+		printf("%.3le ",it->datos[i++]);
 		if(i==it->t){
 			i=0;
 			it=it->sig;
@@ -594,20 +594,56 @@ void liberarAVL(struct NodoAvl **avl){
 void MostrarInOrden(struct NodoAvl *raiz){ 
 	if(raiz != NULL){  
 		MostrarInOrden(raiz->izq);
-		printf("%lf \n", raiz->valor); 
+		printf("%.3le \n", raiz->valor); 
 		MostrarInOrden(raiz->der); 
 	} 
 }
 /**-----------------------------------------------FIN BLOQUE AVL------------------------------------------------------**/
 
+/**----------------------------------------BLOQUE INTERCAMBIO TIEMPO-MEMORIA------------------------------------------**/
+void ordenarPorConteo(double **A,long l){
+    unsigned int *conteo=(int *) calloc(l,sizeof(unsigned int));
+    double *B=(double *) calloc(l,sizeof(double));
+    int i=0,j;
+    for(;i<l;i++)
+        for(j=i+1;j<l;j++)
+            if((*A)[i]>=(*A)[j]){
+                conteo[i]++;
+            }
+            else{
+                conteo[j]++;    
+            }
+    for(i=0;i<l;i++)
+        B[conteo[i]]=(*A)[i];
+    free(conteo);
+    free(*A);
+    *A=B;
+    return;
+}   
+/**--------------------------------------FIN BLOQUE INTERCAMBIO TIEMPO-MEMORIA----------------------------------------**/
 
-
-
-
+/**--------------------------------------------BLOQUE ESTADÍSTICA BÁSICA----------------------------------------------**/
+double mediana(double *A,long L){
+	return L%2!=0?A[(L-1)/2]:(A[((L-1)/2)]+A[(L-1)/2+1])/2;
+}
+double *cuartiles(double *A,long L){
+	double *cuar=(double *) calloc(3,sizeof(double));
+	if((L-1)%2!=0){
+		cuar[0]=(A[((int)(0.25*(L-1)))]+A[(int)(0.25*(L-1)+1)])/2;
+		cuar[2]=(A[(int)(0.75*(L-1))]+A[(int)(0.75*(L-1)+1)])/2;
+	}
+	else{
+		cuar[0]=A[(int)(0.25*(L-1))];
+		cuar[2]=A[(int)(0.75*(L-1))];
+	}
+	cuar[1]=mediana(A,L);
+	return cuar;
+}
+/**------------------------------------------FIN BLOQUE ESTADÍSTICA BÁSICA--------------------------------------------**/
 void imprimirArreglo(double *arreglo,long largo){
 	long i=0;
 	for(;i<largo;i++)
-        printf("%.3lf ",arreglo[i]);
+        printf("%.3le ",arreglo[i]);
 }
 
 

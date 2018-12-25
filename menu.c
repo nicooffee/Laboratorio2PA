@@ -18,11 +18,13 @@ void menuMetodos(FILE *archivo);
 void menuArreglos(FILE *archivo);
 void menuArboles(FILE *archivo);
 void menuTiempoMemoria(FILE *archivo);
+void menuEstadistica(FILE *archivo);
 
 double ejecutarMergeSort(double *arreglo,long largo);
 double ejecutarQuickSort(double *arreglo,long largo);
 double ejecutarHeapSort(struct Heap *h);
 double ejecutarAVL(FILE *archivo);
+double ejecutarOrdenarPorConteo(double **arreglo,long largo);
 
 void subirLineas(int n);
 /**-----------------------------------------------FIN PROTOTIPOS------------------------------------------------------**/
@@ -91,13 +93,14 @@ void menuArchivo(){
 
 void menuMetodos(FILE *archivo){
     char op;
-    int lineas=9;
+    int lineas=10;
     do{
         printf("\rMenu metodos de ordenamiento: \n\n");
         printf("Ingrese el numero de la opcion a ejecutar: \n");
         printf("\t1: Metodos arreglo:\n");
         printf("\t2: Metodos arbol:\n");
         printf("\t3: Estrategias intercambio tiempo-memoria: \n");
+        printf("\t4: Estadisticas basicas.\n");
         printf("\t0: Volver al menu principal.\n");
         printf("\t\33[2KOpcion: ");
         scanf("%c",&op);
@@ -116,6 +119,10 @@ void menuMetodos(FILE *archivo){
             case '3':
                 subirLineas(lineas);
                 menuTiempoMemoria(archivo);
+                break;
+            case '4':
+                subirLineas(lineas);
+                menuEstadistica(archivo);
                 break;
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
@@ -200,7 +207,7 @@ void menuArboles(FILE *archivo){
         printf("Ingrese el numero de la opcion a ejecutar: \n");
         printf("\t1: Ejecutar HeapSort.\n");
         printf("\t2: Ejecutar AVL.\n");
-        printf("\t3: Ejecutar arboles 2-3.\n");
+        printf("\t3: Mostrar Heap.\n");
         printf("\t4: Resetear datos.\n");
         printf("\t0: Volver.\n");
         printf("\t\33[2KOpcion: ");
@@ -228,6 +235,15 @@ void menuArboles(FILE *archivo){
                 subirLineas(lineas);
                 break;
             case '3':
+                system("clear");
+                if(h!=NULL)
+                    mostrarArregloHeap(h);
+                printf("\n\nPresione una tecla para continuar...");
+                pause=getchar();
+                pause=getchar();
+                system("clear");
+                subirLineas(lineas);
+                break;
             case '4':
                 liberarHeap(&h);
                 subirLineas(lineas);
@@ -245,13 +261,17 @@ void menuArboles(FILE *archivo){
 
 
 void menuTiempoMemoria(FILE *archivo){
+    double tiempo=0;
     int lineas=8;
     char op;
+    double *A=NULL;
+    int pause;
+    long L=abrirArchivoArreglo(&A,archivo);
     do{
         printf("\rMenu estrategias intercambio tiempo-memoria: \n\n");
         printf("Ingrese el numero de la opcion a ejecutar: \n");
         printf("\t1: Ejecutar Ordenar por conteo.\n");
-        printf("\t2: Ejecutar Listado de repeticiones de valores.\n");
+        printf("\t2: Mostrar arreglo.\n");
         printf("\t0: Volver.\n");
         printf("\t\33[2KOpcion: ");
         scanf("%c",&op);
@@ -260,7 +280,65 @@ void menuTiempoMemoria(FILE *archivo){
                subirLineas(lineas);
                 break;
             case '1':
+                tiempo=ejecutarOrdenarPorConteo(&A,L);
+                printf("\r\tAlgoritmo ejecutado correctamente. Tiempo: %.3lf ms\33[A",tiempo);
+                subirLineas(lineas);
+                break;
             case '2':
+                system("clear");
+                if(A!=NULL)
+                    imprimirArreglo(A,L);
+                printf("\n\nPresione una tecla para continuar...");
+                pause=getchar();
+                pause=getchar();
+                system("clear");
+                subirLineas(lineas);
+                break;
+            default:
+                printf("\r\t\33[2KOpcion invalida.\33[A");
+                subirLineas(lineas);
+                op='-';
+        }
+    }while(op!='0');
+}
+
+void menuEstadistica(FILE *archivo){
+    double *cuar;
+    double tiempo=0;
+    int lineas=7;
+    char op;
+    double *A=NULL;
+    int pause;
+    long L=abrirArchivoArreglo(&A,archivo);
+    do{
+        printf("\rMenu estadisticas basicas: \n\n");
+        printf("Ingrese el numero de la opcion a ejecutar: \n");
+        printf("\t1: Mostrar estadisticas basicas.\n");
+        printf("\t0: Volver.\n");
+        printf("\t\33[2KOpcion: ");
+        scanf("%c",&op);
+        switch(op){
+            case '0':
+                free(A);
+               subirLineas(lineas);
+                break;
+            case '1':
+                mergeSort(A,0,L-1);
+                system("clear");
+                if(A!=NULL){
+                    cuar=cuartiles(A,L);
+                    printf("|Minimo: %lf |Maximo: %lf\n",A[0],A[L-1]);
+                    printf("|Mediana: %lf\n",mediana(A,L));
+                    printf("|Cuartil 1: %lf |Cuartil 2: %lf |Cuartil 3: %lf",cuar[0],cuar[1],cuar[2]);
+                    free(cuar);
+                }
+                printf("\n\nPresione una tecla para continuar...");
+                pause=getchar();
+                pause=getchar();
+                system("clear");
+                subirLineas(lineas);
+                subirLineas(lineas);
+                break;
             default:
                 printf("\r\t\33[2KOpcion invalida.\33[A");
                 subirLineas(lineas);
@@ -333,6 +411,21 @@ double ejecutarAVL(FILE *archivo){
     tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
     MostrarInOrden(avl);
     liberarAVL(&avl);
+    return tiempo;
+}
+
+
+
+
+
+double ejecutarOrdenarPorConteo(double **arreglo,long largo){
+    double tiempo;
+    clock_t begin;
+    begin=clock();
+    ordenarPorConteo(arreglo,largo);
+    tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
+    if(!estaOrdenado(*arreglo,largo))
+        tiempo=-1;
     return tiempo;
 }
 /**-----------------------------------------------FIN FUNCIONES-------------------------------------------------------**/
