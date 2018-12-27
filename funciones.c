@@ -639,6 +639,32 @@ double *cuartiles(double *A,long L){
 	cuar[1]=mediana(A,L);
 	return cuar;
 }
+double valorMasRepetido (double *A, long L){
+	long i=1;
+	long max=1;
+	long count=1;
+	double valMR=A[0];
+	for(;i<L;i++){
+		if(A[i-1]==A[i])
+			count++;
+		else{
+			if(count>max){
+				max=count;
+				valMR=A[i-1];
+			}
+			count=1;
+		}
+	}
+	return valMR;
+}
+long cantidadValDistintos(double *A,long L){
+	long count=1;
+	long i=1;
+	for(;i<L;i++)
+		if(A[i-1]!=A[i])
+			count++;
+	return count;
+}
 /**------------------------------------------FIN BLOQUE ESTADÍSTICA BÁSICA--------------------------------------------**/
 void imprimirArreglo(double *arreglo,long largo){
 	long i=0;

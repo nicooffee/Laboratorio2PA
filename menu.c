@@ -329,7 +329,8 @@ void menuEstadistica(FILE *archivo){
                     cuar=cuartiles(A,L);
                     printf("|Minimo: %lf |Maximo: %lf\n",A[0],A[L-1]);
                     printf("|Mediana: %lf\n",mediana(A,L));
-                    printf("|Cuartil 1: %lf |Cuartil 2: %lf |Cuartil 3: %lf",cuar[0],cuar[1],cuar[2]);
+                    printf("|Cuartil 1: %lf |Cuartil 2: %lf |Cuartil 3: %lf\n",cuar[0],cuar[1],cuar[2]);
+                    printf("|Valor mas repetido: %lf |Cantidad valores distintos: %ld",valorMasRepetido(A,L),cantidadValDistintos(A,L));
                     free(cuar);
                 }
                 printf("\n\nPresione una tecla para continuar...");

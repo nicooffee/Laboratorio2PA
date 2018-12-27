@@ -72,6 +72,8 @@ void ordenarPorConteo(double **A,long l);
 /**--------------------------------------------BLOQUE ESTADÍSTICA BÁSICA----------------------------------------------**/
 double mediana(double *A,long L);
 double *cuartiles(double *A,long L);
+double valorMasRepetido (double *A, long L);
+long cantidadValDistintos(double *A,long L);
 /**------------------------------------------FIN BLOQUE ESTADÍSTICA BÁSICA--------------------------------------------**/
 
 
