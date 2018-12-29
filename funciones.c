@@ -607,12 +607,7 @@ void ordenarPorConteo(double **A,long l){
     int i=0,j;
     for(;i<l;i++)
         for(j=i+1;j<l;j++)
-            if((*A)[i]>=(*A)[j]){
-                conteo[i]++;
-            }
-            else{
-                conteo[j]++;    
-            }
+			(*A)[i]>=(*A)[j]?conteo[i]++:conteo[j]++; 
     for(i=0;i<l;i++)
         B[conteo[i]]=(*A)[i];
     free(conteo);
