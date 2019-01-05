@@ -1,5 +1,5 @@
 /**--------------------------------------------CONSTANTES GLOBALES----------------------------------------------------**/
-#define LARGONODOHEAP 16 //Largo de cada arreglo en un nodo heap. SOLO POTENCIAS DE 2.
+#define LARGONODOHEAP 4194304 //Largo de cada arreglo en un nodo heap. SOLO POTENCIAS DE 2.
 /**------------------------------------------------ESTRUCTURAS--------------------------------------------------------**/
 /**
  * struct Heap:

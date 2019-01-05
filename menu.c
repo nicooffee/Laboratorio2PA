@@ -277,7 +277,9 @@ void menuTiempoMemoria(FILE *archivo){
         scanf("%c",&op);
         switch(op){
             case '0':
-               subirLineas(lineas);
+                if(A!=NULL)
+                    free(A);
+                subirLineas(lineas);
                 break;
             case '1':
                 tiempo=ejecutarOrdenarPorConteo(&A,L);
@@ -410,7 +412,8 @@ double ejecutarAVL(FILE *archivo){
     struct NodoAvl *avl=NULL;
     crearAvlArchivo(&avl,archivo);
     tiempo=(double)((clock()-begin)*1000)/CLOCKS_PER_SEC;
-    MostrarInOrden(avl);
+    if(tiempo<=10000)
+        MostrarInOrden(avl);
     liberarAVL(&avl);
     return tiempo;
 }
